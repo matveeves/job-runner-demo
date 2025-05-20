@@ -1,0 +1,26 @@
+using JobRunner.DemoIntegration.Worker.DependencyInjection;
+using JobRunner.Demo.Infrastructure.Persistence;
+using JobRunner.Demo.Application;
+
+namespace JobRunner.DemoIntegration.Worker;
+
+public class Program
+{
+    public async static Task Main(string[] args)
+    {
+        var builder = Host.CreateApplicationBuilder(args);
+
+        builder.Configuration
+            .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+            .AddEnvironmentVariables();
+
+
+        builder.Services.AddApplication();
+        builder.Services.AddPersistence(builder.Configuration);
+        builder.Services.AddQuartz(builder.Configuration);
+
+        var host = builder.Build();
+
+        host.Run();
+    }
+}

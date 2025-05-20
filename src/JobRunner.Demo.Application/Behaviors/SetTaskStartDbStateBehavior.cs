@@ -1,0 +1,28 @@
+using JobRunner.Demo.Application.Persistence.Commands;
+using JobRunner.Demo.Application.Interfaces;
+using MediatR;
+
+namespace JobRunner.Demo.Application.Behaviors;
+
+public class SetTaskStartDbStateBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+    where TRequest : ITaskCommand
+{
+    private readonly IMediator _mediator;
+    public SetTaskStartDbStateBehavior(IMediator mediator)
+    {
+        _mediator = mediator;
+    }
+
+    public async Task<TResponse> Handle(TRequest taskCommand, 
+        RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
+    {
+        taskCommand.RetryCount++;
+        taskCommand.StartDate = DateTime.UtcNow;
+
+        await _mediator.Send(
+            new SetTaskStartDbCommand(taskCommand.Id, taskCommand.StartDate),
+            cancellationToken);
+
+        return await next();
+    }
+}
