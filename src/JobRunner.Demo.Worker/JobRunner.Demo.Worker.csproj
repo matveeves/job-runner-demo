@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Worker">
+<Project Sdk="Microsoft.NET.Sdk.Worker">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\JobRunner.Demo.Infrastructure.Persistence\JobRunner.Demo.Infrastructure.Persistence.csproj" />
+    <ProjectReference Include="..\JobRunner.Demo.Infrastructure.Persistence\JobRunner.Demo.Infrastructure.Persistence.EfCore.csproj" />
   </ItemGroup>
 
   <ItemGroup>

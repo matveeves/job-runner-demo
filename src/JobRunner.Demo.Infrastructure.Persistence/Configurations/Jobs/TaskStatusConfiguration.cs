@@ -2,7 +2,7 @@ using TaskStatus = JobRunner.Demo.Domain.Entities.TaskStatus;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
 
-namespace JobRunner.Demo.Infrastructure.Persistence.Configurations;
+namespace JobRunner.Demo.Infrastructure.Persistence.EfCore.Configurations;
 
 public class TaskStatusConfiguration : IEntityTypeConfiguration<TaskStatus>
 {

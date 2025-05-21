@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using JobRunner.Demo.Domain.Enums;
 using MediatR;
 
-namespace JobRunner.Demo.Infrastructure.Persistence.CQRS.Handlers.Commands;
+namespace JobRunner.Demo.Infrastructure.Persistence.EfCore.CQRS.Handlers.Commands;
 
 public class SetTaskStartCommandHandler
     : IRequestHandler<SetTaskStartDbCommand, int>

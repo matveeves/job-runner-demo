@@ -1,6 +1,6 @@
 using Npgsql;
 
-namespace JobRunner.Demo.Infrastructure.Persistence.Extensions;
+namespace JobRunner.Demo.Infrastructure.Persistence.EfCore.Extensions;
 
 public static class NpgsqlDataReaderExtensions
 {

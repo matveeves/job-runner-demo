@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using JobRunner.Demo.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace JobRunner.Demo.Infrastructure.Persistence.Configurations;
+namespace JobRunner.Demo.Infrastructure.Persistence.EfCore.Configurations;
 
 public class TaskQueueConfiguration : IEntityTypeConfiguration<TaskQueue>
 {

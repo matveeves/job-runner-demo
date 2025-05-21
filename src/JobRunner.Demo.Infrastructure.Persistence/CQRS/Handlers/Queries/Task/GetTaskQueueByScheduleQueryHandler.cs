@@ -4,7 +4,7 @@ using JobRunner.Demo.Domain.Entities;
 using JobRunner.Demo.Domain.Enums;
 using MediatR;
 
-namespace JobRunner.Demo.Infrastructure.Persistence.CQRS.Handlers;
+namespace JobRunner.Demo.Infrastructure.Persistence.EfCore.CQRS.Handlers;
 
 public class GetTaskQueueByScheduleQueryHandler
     : IRequestHandler<GetTaskQueueByScheduleDbQuery, IReadOnlyCollection<TaskQueue>>

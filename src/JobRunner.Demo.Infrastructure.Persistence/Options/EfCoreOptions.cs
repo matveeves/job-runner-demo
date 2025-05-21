@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace JobRunner.Demo.Infrastructure.Persistence.Options;
+namespace JobRunner.Demo.Infrastructure.Persistence.EfCore.Options;
 
 public class EfCoreOptions
 {

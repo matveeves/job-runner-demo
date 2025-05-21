@@ -1,10 +1,10 @@
-using JobRunner.Demo.Infrastructure.Persistence.Options;
+using JobRunner.Demo.Infrastructure.Persistence.EfCore.Options;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
-namespace JobRunner.Demo.Infrastructure.Persistence;
+namespace JobRunner.Demo.Infrastructure.Persistence.EfCore;
 
 public static class DependencyInjection
 {

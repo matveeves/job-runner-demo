@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
-namespace JobRunner.Demo.Infrastructure.Persistence;
+namespace JobRunner.Demo.Infrastructure.Persistence.EfCore;
 
 public class AppDbContext : DbContext
 {

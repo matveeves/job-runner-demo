@@ -1,12 +1,12 @@
-using JobRunner.Demo.Infrastructure.Persistence.Extensions;
-using JobRunner.Demo.Infrastructure.Persistence.Options;
+using JobRunner.Demo.Infrastructure.Persistence.EfCore.Extensions;
+using JobRunner.Demo.Infrastructure.Persistence.EfCore.Options;
 using JobRunner.Demo.Application.Persistence.Queries;
 using JobRunner.Demo.Domain.Entities;
 using Microsoft.Extensions.Options;
 using MediatR;
 using Npgsql;
 
-namespace JobRunner.Demo.Infrastructure.Persistence.CQRS.Handlers;
+namespace JobRunner.Demo.Infrastructure.Persistence.EfCore.CQRS.Handlers;
 
 /// <summary>
 /// Обработчик на получение расписания запуска задач.

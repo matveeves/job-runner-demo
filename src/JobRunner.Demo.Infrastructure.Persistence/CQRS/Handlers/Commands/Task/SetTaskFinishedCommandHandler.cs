@@ -4,7 +4,7 @@ using JobRunner.Demo.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
 
-namespace JobRunner.Demo.Infrastructure.Persistence.CQRS.Handlers.Commands;
+namespace JobRunner.Demo.Infrastructure.Persistence.EfCore.CQRS.Handlers.Commands;
 
 public class SetTaskFinishedCommandHandler
     : IRequestHandler<SetTaskFinishedDbCommand, int>

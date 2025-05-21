@@ -1,5 +1,5 @@
 using JobRunner.DemoIntegration.Worker.DependencyInjection;
-using JobRunner.Demo.Infrastructure.Persistence;
+using JobRunner.Demo.Infrastructure.Persistence.EfCore;
 using JobRunner.Demo.Application;
 
 namespace JobRunner.DemoIntegration.Worker;

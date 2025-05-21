@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
 using JobRunner.Demo.Domain.Entities;
 
-namespace JobRunner.Demo.Infrastructure.Persistence.Configurations;
+namespace JobRunner.Demo.Infrastructure.Persistence.EfCore.Configurations;
 
 public class TaskScheduleConfiguration : IEntityTypeConfiguration<TaskSchedule>
 {
