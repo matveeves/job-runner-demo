@@ -1,5 +1,4 @@
 using JobRunner.DemoIntegration.Worker.DependencyInjection;
-using JobRunner.Demo.Infrastructure.Persistence.EfCore;
 using JobRunner.Demo.Application;
 
 namespace JobRunner.DemoIntegration.Worker;
@@ -14,8 +13,8 @@ public class Program
             .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
             .AddEnvironmentVariables();
 
-        builder.Services.AddApplication();
-        builder.Services.ConfigureEfCore(builder.Configuration)
+        builder.Services.AddApplication()
+            .AddInfrastructure(builder.Configuration)
             .AddWorker(builder.Configuration);
 
         var host = builder.Build();
