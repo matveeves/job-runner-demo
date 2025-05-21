@@ -63,6 +63,10 @@ public static class DependencyInjection
         return services;
     }
 
+    /// <summary>
+    /// Вынуждены синхронно ждать результат, так как AddSingleton не поддерживает асинхронные фабрики.
+    /// Блокирует поток.
+    /// </summary>
     public static IServiceCollection AddTaskSchedules(this IServiceCollection services)
     {
         services.AddSingleton(sp =>

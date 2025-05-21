@@ -11,7 +11,9 @@ namespace JobRunner.DemoIntegration.Worker.DependencyInjection;
 
 /// <summary>
 /// Регистрация jobs в quartz.
-/// Так как конфигурация задач хранится в бд, собираем di-контейнер при регистрации.
+/// Временно создаём ServiceProvider, чтобы извлечь MayanTaskSchedule[], так как
+/// AddQuartz не предоставляет асинхронного механизма для получения зависимостей.
+/// to do: просто прокинуть массив задач при регистрации?
 /// </summary>
 public static class QuartzRegistration
 {
