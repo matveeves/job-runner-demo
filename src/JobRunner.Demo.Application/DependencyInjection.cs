@@ -1,3 +1,4 @@
+using JobRunner.Demo.Application.Persistence.Queries;
 using JobRunner.Demo.Application.SerializerSettings;
 using Microsoft.Extensions.DependencyInjection;
 using JobRunner.Demo.Application.Interfaces;
@@ -67,13 +68,11 @@ public static class DependencyInjection
         services.AddSingleton(sp =>
         {
             var mediator = sp.GetRequiredService<IMediator>();
-            //to do: написать запрос по получению задач из хранилиза
-            //var taskSchedules = mediator.Send(query)
-            //    .GetAwaiter().GetResult();
+            var query = new GetTaskScheduleDbQuery();
+            var taskSchedules = mediator.Send(query)
+                .GetAwaiter().GetResult();
 
-            //return taskSchedules;
-
-            return new string[0];
+            return taskSchedules;
         });
 
         return services;
