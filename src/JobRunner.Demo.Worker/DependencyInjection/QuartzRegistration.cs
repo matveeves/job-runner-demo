@@ -42,6 +42,11 @@ public static class QuartzRegistration
                 {
                     o.WaitForJobsToComplete = true;
                 });
+                //to do: передавать из конфигурации
+                q.UseDefaultThreadPool(tp =>
+                {
+                    tp.MaxConcurrency = 75;
+                });
             });
         }
         else
