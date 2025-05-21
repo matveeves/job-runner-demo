@@ -1,6 +1,6 @@
 using JobRunner.Demo.Application.Persistence.Commands;
 using JobRunner.Demo.Application.Interfaces;
-using IFlow.Rsmv.Domain.Enums;
+using JobRunner.Demo.Domain.Enums;
 using MediatR;
 
 namespace JobRunner.Demo.Application.Behaviors;
@@ -21,11 +21,10 @@ public class SetTaskFinishedDbStateBehavior<TRequest, TResponse> : IPipelineBeha
 
         taskCommand.EndDate = DateTime.UtcNow;
 
-        //to do: передавать значение статуса из enum
-        //await _mediator.Send(
-        //    new SetTaskFinishedDbCommand(taskCommand.Id, taskCommand.EndDate,
-        //    taskCommand.RetryCount),
-        //    cancellationToken);
+        await _mediator.Send(
+            new SetTaskFinishedDbCommand(taskCommand.Id, taskCommand.EndDate,
+            taskCommand.RetryCount, TaskStatusCode.SUCCESS),
+            cancellationToken);
 
         return response; 
     }

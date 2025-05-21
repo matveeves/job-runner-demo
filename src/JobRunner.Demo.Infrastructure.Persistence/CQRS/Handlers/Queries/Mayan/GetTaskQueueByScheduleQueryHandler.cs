@@ -1,8 +1,7 @@
 using JobRunner.Demo.Application.Persistence.Queries;
 using Microsoft.EntityFrameworkCore;
-using IFlow.Rsmv.Domain.Entities;
-using IFlow.Rsmv.Domain.Enums;
-using IFlow.Rsmv.DataAccess;
+using JobRunner.Demo.Domain.Entities;
+using JobRunner.Demo.Domain.Enums;
 using MediatR;
 
 namespace JobRunner.Demo.Infrastructure.Persistence.CQRS.Handlers;
@@ -20,7 +19,7 @@ public class GetTaskQueueByScheduleQueryHandler
         GetTaskQueueByScheduleDbQuery query, CancellationToken cancellationToken)
     {
         //to do: передать лимит (Take(query.Limit))
-        var statuses = new[] { .PENDING, .RETRYING };
+        var statuses = new[] { TaskStatusCode.PENDING, TaskStatusCode.RETRYING };
 
         var queue = await _dbContext.Set<TaskQueue>()
             .Include(q => q.TaskSchedule)

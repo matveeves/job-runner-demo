@@ -62,7 +62,7 @@ public class JobStarter<TCommand, TPayload>
     private async Task StartJobInternal(string taskScheduleName, CancellationToken cancellationToken = default)
     {
         var semaphore = new SemaphoreSlim(ConcurrencyLimit);
-        //var getQueueQuery = new GetQueueByScheduleDbQuery(taskScheduleName, MaxItems);
+        var getQueueQuery = new GetTaskQueueByScheduleDbQuery(taskScheduleName, MaxItems);
         var queue = await _mediator.Send(getQueueQuery, cancellationToken);
 
         var tasks = queue.Select(async q =>

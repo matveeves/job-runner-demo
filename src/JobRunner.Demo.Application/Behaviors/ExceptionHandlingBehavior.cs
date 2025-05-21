@@ -3,7 +3,7 @@ using JobRunner.Demo.Application.SerializerSettings;
 using JobRunner.Demo.Application.Interfaces;
 using JobRunner.Demo.Application.Models;
 using Microsoft.Extensions.Logging;
-using IFlow.Rsmv.Domain.Enums;
+using JobRunner.Demo.Domain.Enums;
 using Newtonsoft.Json;
 using Mapster;
 using MediatR;
@@ -56,12 +56,13 @@ public class ExceptionHandlingBehavior<TRequest, TResponse> : IPipelineBehavior<
         exceptions.Add(taskException);
 
         var exceptionsJson = JsonConvert.SerializeObject(exceptions, _serializerSettings);
+        var statusToSetCode = taskCommand.RetryCount == taskCommand.MaxRetries
+            ? TaskStatusCode.FAILED
+            : TaskStatusCode.RETRYING;
 
-        //to do: определять статус по количеству перезапусков задач
-
-        //await _mediator.Send(
-        //    new SetTaskFinishedDbCommand(taskCommand.Id, taskCommand.EndDate,
-        //        taskCommand.RetryCount, statusToSetCode, exceptionsJson),
-        //cancellationToken);
+        await _mediator.Send(
+            new SetTaskFinishedDbCommand(taskCommand.Id, taskCommand.EndDate,
+                taskCommand.RetryCount, statusToSetCode, exceptionsJson),
+        cancellationToken);
     }
 }
