@@ -20,7 +20,7 @@ public class LoggingBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, 
         RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
     {
         _logger.LogInformation("Task execution started. TaskId: '{TaskId}', " +
-                               "StartTime: '{StartTime:dd.MM.yyyy HH:mm:ss}', RetryCount: '{RetryCount}/{MaxRetries}' .",
+                               "StartTime: '{StartTime:dd.MM.yyyy HH:mm:ss}', RetryCount: '{RetryCount}/{MaxRetries}'.",
             taskCommand.Id, taskCommand.StartDate.ToLocalTime(), taskCommand.RetryCount, taskCommand.MaxRetries);
 
         var response = await next();
