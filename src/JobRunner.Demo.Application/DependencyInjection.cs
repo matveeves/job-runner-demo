@@ -1,4 +1,3 @@
-using JobRunner.Demo.Application.Persistence.Queries;
 using JobRunner.Demo.Application.SerializerSettings;
 using Microsoft.Extensions.DependencyInjection;
 using JobRunner.Demo.Application.Interfaces;
@@ -15,6 +14,13 @@ namespace JobRunner.Demo.Application;
 
 public static class DependencyInjection
 {
+    /// <summary>
+    /// Регистрирует MediatR и конвейер поведения для обработки задач.
+    /// Конвейер содержит обработку исключений, логирование, валидацию и обновление состояния задачи в хранилище.
+    /// Конвейер выполняется в порядке регистрации.
+    /// </summary>
+    /// <param name="services"></param>
+    /// <returns></returns>
     public static IServiceCollection AddMediator(this IServiceCollection services)
     {
         services.AddMediatR(o =>

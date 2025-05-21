@@ -114,8 +114,8 @@ public class JobStarter<TCommand, TPayload>
         var taskCommandObj = ActivatorUtilities.CreateInstance(serviceProvider, typeof(TCommand), parameters);
 
         if (!(taskCommandObj is ITaskCommand taskCommand))
-            //написать информативное сообщение об ошибке
-            throw new InvalidCastException();
+            throw new InvalidCastException($"The created instance of type '{typeof(TCommand).FullName}' " +
+                $"could not be cast to '{typeof(ITaskCommand).FullName}'.");
 
         return taskCommand;
     }
@@ -125,8 +125,8 @@ public class JobStarter<TCommand, TPayload>
         var taskCommandObj = ActivatorUtilities.CreateInstance(serviceProvider, typeof(TCommand));
 
         if (!(taskCommandObj is ITaskCommand taskCommand))
-            //написать информативное сообщение об ошибке
-            throw new InvalidCastException();
+            throw new InvalidCastException($"The created instance of type '{typeof(TCommand).FullName}' " +
+                $"could not be cast to '{typeof(ITaskCommand).FullName}'.");
 
         return taskCommand;
     }
@@ -134,16 +134,18 @@ public class JobStarter<TCommand, TPayload>
     private object? ValidateCommandParams(ParameterInfo parameter, Dictionary<string, object> commandParams)
     {
         if (!commandParams.ContainsKey(parameter.Name!))
-            //написать информативное сообщение об ошибке
-            throw new ArgumentException($"Required parametr '{parameter.Name}' not found");
+            throw new ArgumentException(
+                $"Required parameter '{parameter.Name}' was not found in the provided command parameters. " +
+                $"Make sure all constructor dependencies are passed correctly.");
 
         var convertResult = commandParams[parameter.Name!]
             .TryConvert(parameter.ParameterType, out var converedObj);
 
         if (!convertResult)
         {
-            //написать информативное сообщение об ошибке
-            throw new InvalidCastException($"Invalid cast '{parameter.Name}' to '{parameter.ParameterType}'");
+            throw new InvalidCastException(
+                $"Failed to convert parameter '{parameter.Name}' to type '{parameter.ParameterType.FullName}'. " +
+                $"Ensure the value in commandParams is of the correct type or can be converted.");
         }
 
         return converedObj;
