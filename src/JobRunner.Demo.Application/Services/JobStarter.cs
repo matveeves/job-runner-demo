@@ -73,11 +73,16 @@ public class JobStarter<TCommand, TPayload>
             {
                 await using var scope = _scopeFactory.CreateAsyncScope();
                 var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
+                var payloadJson = !string.IsNullOrWhiteSpace(q.JPayload) ? q.JPayload : "{}";
 
-                var taskCommand = TaskCommandParams == null || TaskCommandParams.Count == 0
-                    ? CreateTaskCommand(scope.ServiceProvider)
-                    : CreateTaskCommand(scope.ServiceProvider, TaskCommandParams);
-                taskCommand.Payload = JsonConvert.DeserializeObject<TPayload>(q.JPayload);
+                var taskCommand = TaskCommandParams != null && TaskCommandParams.Count > 0
+                    ? CreateTaskCommand(scope.ServiceProvider, TaskCommandParams)
+                    : CreateTaskCommand(scope.ServiceProvider);
+
+                taskCommand.Payload = JsonConvert.DeserializeObject<TPayload>(payloadJson)
+                    ?? throw new InvalidOperationException($"Failed to deserialize json " +
+                    $"'{payloadJson}' to type '{typeof(TPayload).Name}'");
+
                 q.Adapt(taskCommand);
 
                 await mediator.Send(taskCommand, cancellationToken);

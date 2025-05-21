@@ -8,5 +8,5 @@ public interface ITaskCommand
     int RetryCount { get; set; }
     int MaxRetries { get; set; }
     string? ExceptionsJson { get; set; }
-    ITaskPayload? Payload { get; set; }
+    ITaskPayload Payload { get; set; }
 }

@@ -11,5 +11,5 @@ public abstract class TaskCommandBase : IRequest<Unit>, ITaskCommand
     public int RetryCount { get; set; }
     public int MaxRetries { get; set; }
     public string? ExceptionsJson { get; set; }
-    public ITaskPayload? Payload { get; set; }
+    public ITaskPayload Payload { get; set; }
 }

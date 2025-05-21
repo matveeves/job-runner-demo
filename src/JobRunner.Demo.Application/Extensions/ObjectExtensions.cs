@@ -1,3 +1,5 @@
+using JobRunner.Demo.Application.Interfaces;
+
 namespace JobRunner.Demo.Application.Extensions;
 
 public static class ObjectExtensions
@@ -29,5 +31,16 @@ public static class ObjectExtensions
         {
             return false;
         }
+    }
+
+    public static TPayload GetTypedPayloadOrThrow<TPayload>(this ITaskCommand command)
+        where TPayload : class, ITaskPayload
+    {
+        if (command.Payload is not TPayload typedPayload)
+        {
+            throw new InvalidCastException($"Task payload is not a type '{typeof(TPayload).Name}'");
+        }
+
+        return typedPayload;
     }
 }
