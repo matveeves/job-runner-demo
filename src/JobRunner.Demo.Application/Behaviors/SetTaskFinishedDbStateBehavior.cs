@@ -5,6 +5,10 @@ using MediatR;
 
 namespace JobRunner.Demo.Application.Behaviors;
 
+/// <summary>
+/// Поведение конвейера MediatR, фиксирующее успешное завершение задачи:
+/// устанавливает дату окончания, номер попытки выполнения и отправляет команду обновления статуса в хранилище.
+/// </summary>
 public class SetTaskFinishedDbStateBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     where TRequest : ITaskCommand
 {

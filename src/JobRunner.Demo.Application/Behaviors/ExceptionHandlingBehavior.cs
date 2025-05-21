@@ -10,6 +10,13 @@ using MediatR;
 
 namespace JobRunner.Demo.Application.Behaviors;
 
+/// <summary>
+/// Поведение конвейера MediatR, обрабатывающее исключения при выполнении задачи.
+/// В случае ошибки:
+/// - логирует исключение с деталями задачи;
+/// - сериализует и сохраняет информацию об ошибке;
+/// - отправляет команду на обновление статуса задачи в хранилище (RETRYING или FAILED).
+/// </summary>
 public class ExceptionHandlingBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     where TRequest : ITaskCommand
 {

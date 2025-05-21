@@ -4,6 +4,9 @@ using MediatR;
 
 namespace JobRunner.Demo.Application.Behaviors;
 
+/// <summary>
+/// Поведение конвейера MediatR, логирующее началои успешное завершение выполнения задачи.
+/// </summary>
 public class LoggingBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     where TRequest : ITaskCommand
 {

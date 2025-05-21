@@ -5,6 +5,10 @@ using MediatR;
 
 namespace JobRunner.Demo.Application.Behaviors;
 
+/// <summary>
+/// Поведение конвейера MediatR, выполняющее валидацию полезной нагрузки задачи перед её обработкой.
+/// При обнаружении ошибок выбрасывает исключение и прерывает выполнение.
+/// </summary>
 public class ValidationPayloadBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     where TRequest : ITaskCommand
 {

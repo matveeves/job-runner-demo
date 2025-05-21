@@ -4,6 +4,10 @@ using MediatR;
 
 namespace JobRunner.Demo.Application.Behaviors;
 
+/// <summary>
+/// Поведение конвейера MediatR, фиксирующее запуск задачи: увеличивает счётчик попыток,
+/// устанавливает дату начала и отправляет команду обновления статуса в хранилище.
+/// </summary>
 public class SetTaskStartDbStateBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     where TRequest : ITaskCommand
 {
