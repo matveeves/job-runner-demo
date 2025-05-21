@@ -15,7 +15,7 @@ public class Program
             .AddEnvironmentVariables();
 
         builder.Services.AddApplication();
-        builder.Services.AddPersistence(builder.Configuration);
+        builder.Services.ConfigureEfCore(builder.Configuration);
         builder.Services.AddQuartz(builder.Configuration);
 
         var host = builder.Build();

@@ -8,7 +8,7 @@ namespace JobRunner.Demo.Infrastructure.Persistence.EfCore;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddPersistence(
+    public static IServiceCollection ConfigureEfCore(
         this IServiceCollection services, IConfiguration configuration)
     {
         var sectionName = EfCoreOptions.SectionName;
