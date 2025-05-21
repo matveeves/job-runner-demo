@@ -1,8 +1,8 @@
+using TaskStatus = JobRunner.Demo.Domain.Entities.TaskStatus;
 using JobRunner.Demo.Application.Persistence.Commands;
+using JobRunner.Demo.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
-using IFlow.Rsmv.Domain.Entities;
-using IFlow.Rsmv.Domain.Enums;
-using IFlow.Rsmv.DataAccess;
+using JobRunner.Demo.Domain.Enums;
 using MediatR;
 
 namespace JobRunner.Demo.Infrastructure.Persistence.CQRS.Handlers.Commands;
@@ -20,7 +20,7 @@ public class SetTaskStartCommandHandler
         SetTaskStartDbCommand query, CancellationToken cancellationToken)
     {
         var runningStatusId = await _dbContext.Set<TaskStatus>()
-            .Where(s => s.Code == .RUNNING)
+            .Where(s => s.Code == TaskStatusCode.RUNNING)
             .Select(s => s.Id)
             .SingleAsync(cancellationToken);
 

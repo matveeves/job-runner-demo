@@ -2,7 +2,7 @@ using JobRunner.DemoIntegration.Worker.Attributes;
 using JobRunner.DemoIntegration.Worker.Extensions;
 using JobRunner.DemoIntegration.Worker.Services;
 using JobRunner.DemoIntegration.Worker.Models;
-using IFlow.Rsmv.Domain.Entities;
+using JobRunner.Demo.Domain.Entities;
 using System.Reflection;
 using Newtonsoft.Json;
 using Quartz;

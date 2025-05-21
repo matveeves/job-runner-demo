@@ -1,7 +1,7 @@
+using TaskStatus = JobRunner.Demo.Domain.Entities.TaskStatus;
 using JobRunner.Demo.Application.Persistence.Commands;
+using JobRunner.Demo.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
-using IFlow.Rsmv.Domain.Entities;
-using IFlow.Rsmv.DataAccess;
 using MediatR;
 
 namespace JobRunner.Demo.Infrastructure.Persistence.CQRS.Handlers.Commands;

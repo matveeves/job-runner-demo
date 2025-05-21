@@ -6,14 +6,13 @@ namespace JobRunner.DemoIntegration.Worker;
 
 public class Program
 {
-    public async static Task Main(string[] args)
+    public static void Main(string[] args)
     {
         var builder = Host.CreateApplicationBuilder(args);
 
         builder.Configuration
             .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
             .AddEnvironmentVariables();
-
 
         builder.Services.AddApplication();
         builder.Services.AddPersistence(builder.Configuration);

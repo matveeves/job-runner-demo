@@ -1,8 +1,8 @@
 using JobRunner.Demo.Infrastructure.Persistence.Extensions;
+using JobRunner.Demo.Infrastructure.Persistence.Options;
 using JobRunner.Demo.Application.Persistence.Queries;
-using IFlow.Rsmv.DataAccess.Options;
+using JobRunner.Demo.Domain.Entities;
 using Microsoft.Extensions.Options;
-using IFlow.Rsmv.Domain.Entities;
 using MediatR;
 using Npgsql;
 
@@ -27,7 +27,7 @@ public class GetTaskScheduleQueryHandler
     {
         using var connection = new NpgsqlConnection(_options.ConnectionString);
         await connection.OpenAsync(cancellationToken);
-        var command = new NpgsqlCommand("SELECT * FROM cs_task_schedules WHERE b_is_enabled;", connection);
+        var command = new NpgsqlCommand("SELECT * FROM jobs.cs_task_schedules WHERE b_is_enabled;", connection);
         using var reader = await command.ExecuteReaderAsync(cancellationToken);
 
         var schedules = new List<TaskSchedule>();
