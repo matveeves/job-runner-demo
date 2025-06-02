@@ -5,7 +5,7 @@ VisualStudioVersion = 17.11.35303.130
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JobRunner.Demo.Worker", "src\JobRunner.Demo.Worker\JobRunner.Demo.Worker.csproj", "{1807EC46-48A2-466C-AB0A-EC67FA70C1D3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JobRunner.Demo.Infrastructure.Persistence.EfCore", "src\JobRunner.Demo.Infrastructure.Persistence\JobRunner.Demo.Infrastructure.Persistence.EfCore.csproj", "{47813BB6-7AF6-40BD-8805-4AF2CB007CF2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JobRunner.Demo.Infrastructure.Persistence.EfCore", "src\JobRunner.Demo.Infrastructure.Persistence.EfCore\JobRunner.Demo.Infrastructure.Persistence.EfCore.csproj", "{47813BB6-7AF6-40BD-8805-4AF2CB007CF2}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JobRunner.Demo.Application", "src\JobRunner.Demo.Application\JobRunner.Demo.Application.csproj", "{127FB793-7E53-459C-91A3-3381405C3A88}"
 EndProject

@@ -41,10 +41,9 @@ public static class DependencyInjection
             o.UseNpgsql(efCoreOptions.ConnectionString, builder =>
             {
                 builder.MigrationsAssembly(typeof(AppDbContext).Assembly.FullName);
-                builder.MigrationsHistoryTable("efmigrationshistory", "public");
+                builder.MigrationsHistoryTable("cs_ef_migrations", "jobs");
             });
             //o.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
-
         });
 
         return services;

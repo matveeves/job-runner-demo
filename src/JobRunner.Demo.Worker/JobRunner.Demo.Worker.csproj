@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\JobRunner.Demo.Infrastructure.Persistence\JobRunner.Demo.Infrastructure.Persistence.EfCore.csproj" />
+    <ProjectReference Include="..\JobRunner.Demo.Infrastructure.Persistence.EfCore\JobRunner.Demo.Infrastructure.Persistence.EfCore.csproj" />
   </ItemGroup>
 
   <ItemGroup>
