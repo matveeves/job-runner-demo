@@ -19,7 +19,7 @@ public class GetTaskQueueByScheduleQueryHandler
         GetTaskQueueByScheduleDbQuery query, CancellationToken cancellationToken)
     {
         //to do: передать лимит (Take(query.Limit))
-        var statuses = new[] { TaskStatusCode.PENDING, TaskStatusCode.RETRYING };
+        var statuses = new[] { TaskStatusCode.Pending, TaskStatusCode.Retrying };
 
         var queue = await _dbContext.Set<TaskQueue>()
             .Include(q => q.TaskSchedule)

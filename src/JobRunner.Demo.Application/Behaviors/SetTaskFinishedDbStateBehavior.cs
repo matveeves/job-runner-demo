@@ -27,7 +27,7 @@ public class SetTaskFinishedDbStateBehavior<TRequest, TResponse> : IPipelineBeha
 
         await _mediator.Send(
             new SetTaskFinishedDbCommand(taskCommand.Id, taskCommand.EndDate,
-            taskCommand.RetryCount, TaskStatusCode.SUCCESS),
+            taskCommand.RetryCount, TaskStatusCode.Success),
             cancellationToken);
 
         return response; 

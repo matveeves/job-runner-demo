@@ -8,30 +8,30 @@ public enum TaskStatusCode
     /// <summary>
     /// Задача находится в очереди на выполнение.
     /// </summary>
-    PENDING,
+    Pending,
 
     /// <summary>
     /// Задача в процессе выполнения.
     /// </summary>
-    RUNNING,
+    Running,
 
     /// <summary>
     /// Задача успешно завершена.
     /// </summary>
-    SUCCESS,
+    Success,
 
     /// <summary>
     /// Выполнение задачи завершилось с ошибкой.
     /// </summary>
-    FAILED,
+    Failed,
 
     /// <summary>
     /// Задача повторно запускается после ошибки.
     /// </summary>
-    RETRYING,
+    Retrying,
 
     /// <summary>
     /// Задача была отменена.
     /// </summary>
-    CANCELLED
+    Cancelled
 }

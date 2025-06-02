@@ -20,7 +20,7 @@ public class SetTaskStartCommandHandler
         SetTaskStartDbCommand query, CancellationToken cancellationToken)
     {
         var runningStatusId = await _dbContext.Set<TaskStatus>()
-            .Where(s => s.Code == TaskStatusCode.RUNNING)
+            .Where(s => s.Code == TaskStatusCode.Running)
             .Select(s => s.Id)
             .SingleAsync(cancellationToken);
 

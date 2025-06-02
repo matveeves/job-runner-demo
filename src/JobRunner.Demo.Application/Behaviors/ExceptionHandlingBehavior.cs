@@ -64,8 +64,8 @@ public class ExceptionHandlingBehavior<TRequest, TResponse> : IPipelineBehavior<
 
         var exceptionsJson = JsonConvert.SerializeObject(exceptions, _serializerSettings);
         var statusToSetCode = taskCommand.RetryCount == taskCommand.MaxRetries
-            ? TaskStatusCode.FAILED
-            : TaskStatusCode.RETRYING;
+            ? TaskStatusCode.Failed
+            : TaskStatusCode.Retrying;
 
         await _mediator.Send(
             new SetTaskFinishedDbCommand(taskCommand.Id, taskCommand.EndDate,
