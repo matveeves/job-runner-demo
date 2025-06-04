@@ -63,25 +63,6 @@ public static class DependencyInjection
         return services;
     }
 
-    /// <summary>
-    /// Вынуждены синхронно ждать результат, так как AddSingleton не поддерживает асинхронные фабрики.
-    /// Блокирует поток.
-    /// </summary>
-    public static IServiceCollection AddTaskSchedules(this IServiceCollection services)
-    {
-        services.AddSingleton(sp =>
-        {
-            var mediator = sp.GetRequiredService<IMediator>();
-            var query = new GetTaskScheduleDbQuery();
-            var taskSchedules = mediator.Send(query)
-                .GetAwaiter().GetResult();
-
-            return taskSchedules;
-        });
-
-        return services;
-    }
-
     public static IServiceCollection AddCamelCaseSettings(this IServiceCollection services)
     {
         services.AddSingleton(new CamelCaseJsonSerializerSettings

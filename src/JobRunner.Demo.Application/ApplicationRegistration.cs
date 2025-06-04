@@ -8,7 +8,6 @@ public static class ApplicationRegistration
         this IServiceCollection services)
     {
         services.AddCamelCaseSettings()
-            .AddTaskSchedules()
             .AddJobStarters()
             .AddValidator()
             .AddMediator()

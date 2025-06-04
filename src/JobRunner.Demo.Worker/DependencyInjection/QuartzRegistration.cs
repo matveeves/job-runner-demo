@@ -20,60 +20,62 @@ public static class QuartzRegistration
     public static IServiceCollection AddQuartz(this IServiceCollection services,
         IConfiguration configuration)
     {
-        using var sp = services.BuildServiceProvider();
-        var jobSchedules = sp.GetRequiredService<IReadOnlyCollection<TaskSchedule>>();
-        var jobRegisterErrors = new List<string>();
+        //using var sp = services.BuildServiceProvider();
+        //var jobSchedules = sp.GetRequiredService<IReadOnlyCollection<TaskSchedule>>();
+        //var jobRegisterErrors = new List<string>();
 
-        if (jobSchedules.Any())
+        //if (jobSchedules.Any())
+        //{
+        //    services.AddQuartz(q =>
+        //    {
+        //        foreach (var jobSchedule in jobSchedules)
+        //        {
+        //            var jobType = GetJobClassType(jobSchedule.Name);
+
+        //            if(!ValidateJobSchedule(jobSchedule, jobType, jobRegisterErrors))
+        //            {
+        //                continue;
+        //            }
+
+        //            q.Addjob(jobType!, jobSchedule);
+        //        }
+
+        //        services.AddQuartzHostedService(o =>
+        //        {
+        //            o.WaitForJobsToComplete = true;
+        //        });
+        //        //to do: передавать из конфигурации
+        //        q.UseDefaultThreadPool(tp =>
+        //        {
+        //            tp.MaxConcurrency = 75;
+        //        });
+        //    });
+        //}
+        //else
+        //{
+        //    jobRegisterErrors.Add($"В конфигурации не обнаружены " +
+        //        $"зарегистрированные задачи. Запуск Quartz будет пропущен.");
+        //}
+
+        //services.AddSingleton(new QuartzValidationState(jobRegisterErrors));
+        //services.AddHostedService<QuartzValidationService>();
+
+
+        services.AddQuartz(q =>
         {
-            services.AddQuartz(q =>
+            //q.UseMicrosoftDependencyInjectionJobFactory();
+            //to do: передавать из конфигурации
+            q.UseDefaultThreadPool(tp =>
             {
-                foreach (var jobSchedule in jobSchedules)
-                {
-                    var jobType = GetJobClassType(jobSchedule.Name);
-
-                    if(!ValidateJobSchedule(jobSchedule, jobType, jobRegisterErrors))
-                    {
-                        continue;
-                    }
-
-                    q.Addjob(jobType!, jobSchedule);
-                }
-
-                services.AddQuartzHostedService(o =>
-                {
-                    o.WaitForJobsToComplete = true;
-                });
-                //to do: передавать из конфигурации
-                q.UseDefaultThreadPool(tp =>
-                {
-                    tp.MaxConcurrency = 75;
-                });
+                tp.MaxConcurrency = 75;
             });
-        }
-        else
-        {
-            jobRegisterErrors.Add($"В конфигурации не обнаружены " +
-                $"зарегистрированные задачи. Запуск Quartz будет пропущен.");
-        }
-
-        services.AddSingleton(new QuartzValidationState(jobRegisterErrors));
-        services.AddHostedService<QuartzValidationService>();
+        });
 
         return services;
     }
 
 
-    private static Type? GetJobClassType(string jobName)
-    {
-        var obType = AppDomain.CurrentDomain.GetAssemblies()
-            .SelectMany(a => a.GetTypes())
-            .SingleOrDefault(t => t.GetCustomAttribute<JobNameAttribute>() != null
-                                  && !string.IsNullOrWhiteSpace(t.GetCustomAttribute<JobNameAttribute>()!.Name)
-                                  && t.GetCustomAttribute<JobNameAttribute>()!.Name == jobName);
-
-        return obType;
-    }
+    
 
     public static void Addjob(this IServiceCollectionQuartzConfigurator configurator,
         Type jobType, TaskSchedule jobSchedule)
