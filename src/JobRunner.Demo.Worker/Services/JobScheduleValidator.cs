@@ -6,31 +6,27 @@ namespace JobRunner.Demo.Worker.Services;
 
 public class JobScheduleValidator
 {
-    public ICollection<string> ErrorMessages { get; }
-    public JobScheduleValidator()
+    public bool Validate(TaskSchedule jobSchedule, Type? jobType, out ICollection<string> errorMessages)
     {
-        ErrorMessages = new List<string>();
-    }
+        errorMessages = new List<string>();
 
-    public bool Validate(TaskSchedule jobSchedule, Type? jobType)
-    {
         if (jobType == null)
         {
-            ErrorMessages.Add($"Не удаётся определить класс-обработчик для задачи '{jobSchedule.Name}'. " +
-                       $"Запуск задачи '{jobSchedule.Name}' будет пропущен.");
+            errorMessages.Add($"Не удаётся определить класс-обработчик для задачи '{jobSchedule.Name}'. " +
+                              $"Запуск задачи '{jobSchedule.Name}' будет пропущен.");
         }
 
         if (!CronExpression.IsValidExpression(jobSchedule.CronExpression))
         {
-            ErrorMessages.Add($"Обнаружено невалидное cron выражение для задачи '{jobSchedule.Name}'. " +
-                       $"Запуск задачи '{jobSchedule.Name}' будет пропущен.");
+            errorMessages.Add($"Обнаружено невалидное cron выражение для задачи '{jobSchedule.Name}'. " +
+                              $"Запуск задачи '{jobSchedule.Name}' будет пропущен.");
         }
 
         var jCustomParams = jobSchedule.JCustomParams;
         if (jCustomParams != null && !jCustomParams.IsValidJson())
         {
-            ErrorMessages.Add($"Невалидный json кастомных параметров для задачи '{jobSchedule.Name}'. " +
-                       $"Запуск задачи '{jobSchedule.Name}' будет пропущен.");
+            errorMessages.Add($"Невалидный json кастомных параметров для задачи '{jobSchedule.Name}'. " +
+                              $"Запуск задачи '{jobSchedule.Name}' будет пропущен.");
         }
 
         return jobType != null
