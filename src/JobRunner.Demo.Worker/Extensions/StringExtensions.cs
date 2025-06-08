@@ -1,14 +1,14 @@
 using Newtonsoft.Json.Linq;
 
-namespace JobRunner.DemoIntegration.Worker.Extensions;
+namespace JobRunner.Demo.Worker.Extensions;
 
 public static class StringExtensions
 {
-    public static bool IsValidJson(this string jsonCustomParams)
+    public static bool IsValidJson(this string json)
     {
         try
         {
-            JToken.Parse(jsonCustomParams);
+            JToken.Parse(json);
             return true;
         }
         catch

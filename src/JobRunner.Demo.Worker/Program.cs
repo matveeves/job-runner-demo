@@ -1,7 +1,7 @@
-using JobRunner.DemoIntegration.Worker.DependencyInjection;
+using JobRunner.Demo.Worker.DependencyInjection;
 using JobRunner.Demo.Application;
 
-namespace JobRunner.DemoIntegration.Worker;
+namespace JobRunner.Demo.Worker;
 
 public class Program
 {
