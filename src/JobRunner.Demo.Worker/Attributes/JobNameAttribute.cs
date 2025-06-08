@@ -1,4 +1,4 @@
-namespace JobRunner.DemoIntegration.Worker.Attributes;
+namespace JobRunner.Demo.Worker.Attributes;
 
 [AttributeUsage(AttributeTargets.Class)]
 public sealed class JobNameAttribute : Attribute

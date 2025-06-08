@@ -1,6 +1,6 @@
 using JobRunner.Demo.Infrastructure.Persistence.EfCore;
 
-namespace JobRunner.DemoIntegration.Worker.DependencyInjection;
+namespace JobRunner.Demo.Worker.DependencyInjection;
 
 public static class InfrastructureRegistration
 {

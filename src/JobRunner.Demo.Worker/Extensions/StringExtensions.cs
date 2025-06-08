@@ -1,6 +1,6 @@
 using Newtonsoft.Json.Linq;
 
-namespace JobRunner.DemoIntegration.Worker.Extensions;
+namespace JobRunner.Demo.Worker.Extensions;
 
 public static class StringExtensions
 {

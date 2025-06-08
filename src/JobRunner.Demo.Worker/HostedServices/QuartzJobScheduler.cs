@@ -1,11 +1,11 @@
-            using JobRunner.Demo.Application.Persistence.Queries;
-using JobRunner.DemoIntegration.Worker.Attributes;
+using JobRunner.Demo.Application.Persistence.Queries;
+using JobRunner.Demo.Worker.Attributes;
 using JobRunner.Demo.Worker.Services;
+using JobRunner.Demo.Domain.Entities;
+using JobRunner.Demo.Worker.Models;
 using System.Reflection;
 using MediatR;
 using Quartz;
-using JobRunner.Demo.Domain.Entities;
-using JobRunner.Demo.Worker.Models;
 
 namespace JobRunner.Demo.Worker.HostedServices;
 
@@ -50,9 +50,9 @@ public class QuartzJobScheduler : IHostedService
                 .ToArray();
 
 
-            if (scheduleValidator.Errors.Any())
+            if (scheduleValidator.ErrorMessages.Any())
             {
-                foreach (var error in scheduleValidator.Errors)
+                foreach (var error in scheduleValidator.ErrorMessages)
                 {
                     logger.LogWarning(error);
                 }

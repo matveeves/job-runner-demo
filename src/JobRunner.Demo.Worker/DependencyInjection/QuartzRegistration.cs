@@ -1,58 +1,14 @@
-using JobRunner.DemoIntegration.Worker.Extensions;
-using JobRunner.Demo.Domain.Entities;
-using System.Reflection;
-using Newtonsoft.Json;
 using JobRunner.Demo.Worker.HostedServices;
 using JobRunner.Demo.Worker.Services;
 using Quartz;
 
-namespace JobRunner.DemoIntegration.Worker.DependencyInjection;
+namespace JobRunner.Demo.Worker.DependencyInjection;
 
 public static class QuartzRegistration
 {
     public static IServiceCollection AddQuartz(this IServiceCollection services,
         IConfiguration configuration)
     {
-        //using var sp = services.BuildServiceProvider();
-        //var jobSchedules = sp.GetRequiredService<IReadOnlyCollection<TaskSchedule>>();
-        //var jobRegisterErrors = new List<string>();
-
-        //if (jobSchedules.Any())
-        //{
-        //    services.AddQuartz(q =>
-        //    {
-        //        foreach (var jobSchedule in jobSchedules)
-        //        {
-        //            var jobType = GetJobClassType(jobSchedule.Name);
-
-        //            if(!ValidateJobSchedule(jobSchedule, jobType, jobRegisterErrors))
-        //            {
-        //                continue;
-        //            }
-
-        //            q.Addjob(jobType!, jobSchedule);
-        //        }
-
-        //        services.AddQuartzHostedService(o =>
-        //        {
-        //            o.WaitForJobsToComplete = true;
-        //        });
-        //        //to do: передавать из конфигурации
-        //        q.UseDefaultThreadPool(tp =>
-        //        {
-        //            tp.MaxConcurrency = 75;
-        //        });
-        //    });
-        //}
-        //else
-        //{
-        //    jobRegisterErrors.Add($"В конфигурации не обнаружены " +
-        //        $"зарегистрированные задачи. Запуск Quartz будет пропущен.");
-        //}
-
-
-
-
         services.AddQuartz(q =>
         {
             //to do: передавать из конфигурации
@@ -66,63 +22,5 @@ public static class QuartzRegistration
             .AddSingleton<JobScheduleValidator>();
 
         return services;
-    }
-
-
-    
-
-    public static void Addjob(this IServiceCollectionQuartzConfigurator configurator,
-        Type jobType, TaskSchedule jobSchedule)
-    {
-        configurator.AddJob(jobType, new JobKey(jobSchedule.Name), j =>
-        {
-            j.UsingJobData("taskScheduleName", jobSchedule.Name);
-            j.UsingJobData("maxItems", jobSchedule.MaxItemsPerIteration);
-            j.UsingJobData("concurrencyLimit", jobSchedule.ConcurrencyLimitPerIteration);
-
-            if (!string.IsNullOrWhiteSpace(jobSchedule.JCustomParams))
-            {
-                var customParams = JsonConvert
-                    .DeserializeObject<Dictionary<string, string>>(jobSchedule.JCustomParams);
-
-                foreach (var (key, value) in customParams!)
-                {
-                    j.UsingJobData(key, value);
-                }
-            }
-        });
-
-        configurator.AddTrigger(o => o
-            .ForJob(jobSchedule.Name)
-            .WithIdentity($"{jobSchedule.Name}-trigger")
-            .WithCronSchedule(jobSchedule.CronExpression, c => c
-                .WithMisfireHandlingInstructionDoNothing()));
-    }
-
-    private static bool ValidateJobSchedule(TaskSchedule jobSchedule, Type? jobType, ICollection<string> jobRegisterErrors)
-    {
-
-        if (jobType == null)
-        {
-            jobRegisterErrors.Add($"Не удаётся определить класс-обработчик для задачи '{jobSchedule.Name}'. " +
-                          $"Запуск задачи '{jobSchedule.Name}' будет пропущен.");
-
-        }
-
-        if (!CronExpression.IsValidExpression(jobSchedule.CronExpression))
-        {
-            jobRegisterErrors.Add($"Обнаружено невалидное cron выражение для задачи '{jobSchedule.Name}'. " +
-                          $"Запуск задачи '{jobSchedule.Name}' будет пропущен.");
-        }
-
-        var jCustomParams = jobSchedule.JCustomParams;
-
-        if (jCustomParams != null && !jCustomParams.IsValidJson())
-        {
-            jobRegisterErrors.Add($"Невалидный json кастомных параметров для задачи '{jobSchedule.Name}'. " +
-                          $"Запуск задачи '{jobSchedule.Name}' будет пропущен.");
-        }
-
-        return jobRegisterErrors.Count == 0;
     }
 }

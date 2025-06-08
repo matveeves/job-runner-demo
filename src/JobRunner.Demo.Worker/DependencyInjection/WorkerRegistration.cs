@@ -2,7 +2,7 @@ using JobRunner.Demo.Worker.HostedServices;
 using JobRunner.Demo.Worker.Services;
 using Serilog;
 
-namespace JobRunner.DemoIntegration.Worker.DependencyInjection;
+namespace JobRunner.Demo.Worker.DependencyInjection;
 
 public static class WorkerRegistration
 {

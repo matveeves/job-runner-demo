@@ -2,7 +2,7 @@ using JobRunner.Demo.Application.Interfaces;
 using JobRunner.Demo.Application.Services;
 using Quartz;
 
-namespace JobRunner.DemoIntegration.Worker.Abstractions;
+namespace JobRunner.Demo.Worker.Abstractions;
 
 [DisallowConcurrentExecution]
 public abstract class JobBase<TCommand, TPayload> : IJob

@@ -1,8 +1,8 @@
-using JobRunner.DemoIntegration.Worker.Abstractions;
-using JobRunner.DemoIntegration.Worker.Attributes;
+using JobRunner.Demo.Worker.Abstractions;
+using JobRunner.Demo.Worker.Attributes;
 using JobRunner.Demo.Application.JobCommands;
 
-namespace JobRunner.DemoIntegration.Worker.Tasks;
+namespace JobRunner.Demo.Worker.Tasks;
 
 [JobName("test_task")]
 public class TestJob : JobBase<TestTaskCommand, TestTaskPayload>
