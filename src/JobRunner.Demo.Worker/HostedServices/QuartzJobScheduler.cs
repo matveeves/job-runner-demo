@@ -1,9 +1,11 @@
-using JobRunner.Demo.Application.Persistence.Queries;
-using JobRunner.Demo.Worker.Services;
+            using JobRunner.Demo.Application.Persistence.Queries;
 using JobRunner.DemoIntegration.Worker.Attributes;
+using JobRunner.Demo.Worker.Services;
+using System.Reflection;
 using MediatR;
 using Quartz;
-using System.Reflection;
+using JobRunner.Demo.Domain.Entities;
+using JobRunner.Demo.Worker.Models;
 
 namespace JobRunner.Demo.Worker.HostedServices;
 
@@ -24,51 +26,67 @@ public class QuartzJobScheduler : IHostedService
             var sp = scope.ServiceProvider;
             var mediator = sp.GetRequiredService<IMediator>();
             var quartzBuilder = sp.GetRequiredService<QuartzBuilder>();
+            var scheduleValidator = sp.GetRequiredService<JobScheduleValidator>();
             var logger = sp.GetRequiredService<ILogger<QuartzJobScheduler>>();
-
             var scheduler = await _schedulerFactory.GetScheduler(cancellationToken);
             var taskSchedules = await mediator.Send(
                 new GetTaskScheduleDbQuery(), cancellationToken);
 
-            foreach (var schedule in taskSchedules)
+            if (taskSchedules.Count == 0)
             {
-                var jobType = GetJobClassType(schedule.Name);
+                logger.LogWarning($"В конфигурации не обнаружены " +
+                        $"зарегистрированные задачи. Запуск Quartz будет пропущен.");
+                return;
             }
 
-            var sdfsdfsd = taskSchedules.Select(s => quartzBuilder.BuildJob(GetJobClassType(s.Name), s))
+            var jobsToStart = taskSchedules.Select(s
+                    => BuildJobContainer(s, quartzBuilder, scheduleValidator))
+                .Where(s => s.IsReadyToStart)
+                .ToArray();
+
+            await scheduler.Start(cancellationToken);
+            _ = jobsToStart.Select(async c 
+                    => await scheduler.ScheduleJob(c.QuartzJobDetail!, c.QuartzJobTrigger!, cancellationToken))
                 .ToArray();
 
 
-            var sssdfsdfsd = sdfsdfsd;
-
+            if (scheduleValidator.Errors.Any())
+            {
+                foreach (var error in scheduleValidator.Errors)
+                {
+                    logger.LogWarning(error);
+                }
+            }
         }
-
-
-
-        //if (_validationState.Errors.Any())
-        //{
-        //    foreach (var error in _validationState.Errors)
-        //    {
-        //        _logger.LogWarning(error);
-        //    }
-        //}
-
-
-
     }
     public Task StopAsync(CancellationToken cancellationToken)
         => Task.CompletedTask;
 
-
-
-    private Type? GetJobClassType(string jobName)
+    private static QuartzJobBuilderContainer BuildJobContainer(TaskSchedule schedule,
+        QuartzBuilder quartzBuilder, JobScheduleValidator validator)
     {
-        var obType = AppDomain.CurrentDomain.GetAssemblies()
+        var jobType = GetJobClassType(schedule.Name);
+        var isReadyToStart = validator.Validate(schedule, jobType);
+
+        var jobDetail = isReadyToStart
+            ? quartzBuilder.BuildJob(jobType!, schedule)
+            : null;
+
+        var jobTrigger = isReadyToStart
+            ? quartzBuilder.BuildTrigger(schedule)
+            : null;
+
+        return new QuartzJobBuilderContainer(isReadyToStart, schedule, jobDetail, jobTrigger);
+    }
+
+    private static Type? GetJobClassType(string jobName)
+    {
+        var jobType = AppDomain.CurrentDomain.GetAssemblies()
             .SelectMany(a => a.GetTypes())
             .SingleOrDefault(t => t.GetCustomAttribute<JobNameAttribute>() != null
                 && !string.IsNullOrWhiteSpace(t.GetCustomAttribute<JobNameAttribute>()!.Name)
                 && t.GetCustomAttribute<JobNameAttribute>()!.Name == jobName);
 
-        return obType;
+        return jobType;
     }
 }

@@ -1,20 +1,13 @@
-using JobRunner.DemoIntegration.Worker.Attributes;
 using JobRunner.DemoIntegration.Worker.Extensions;
-using JobRunner.DemoIntegration.Worker.Services;
-using JobRunner.DemoIntegration.Worker.Models;
 using JobRunner.Demo.Domain.Entities;
 using System.Reflection;
 using Newtonsoft.Json;
+using JobRunner.Demo.Worker.HostedServices;
+using JobRunner.Demo.Worker.Services;
 using Quartz;
 
 namespace JobRunner.DemoIntegration.Worker.DependencyInjection;
 
-/// <summary>
-/// Регистрация jobs в quartz.
-/// Временно создаём ServiceProvider, чтобы извлечь MayanTaskSchedule[], так как
-/// AddQuartz не предоставляет асинхронного механизма для получения зависимостей.
-/// to do: просто прокинуть массив задач при регистрации?
-/// </summary>
 public static class QuartzRegistration
 {
     public static IServiceCollection AddQuartz(this IServiceCollection services,
@@ -57,19 +50,20 @@ public static class QuartzRegistration
         //        $"зарегистрированные задачи. Запуск Quartz будет пропущен.");
         //}
 
-        //services.AddSingleton(new QuartzValidationState(jobRegisterErrors));
-        //services.AddHostedService<QuartzValidationService>();
+
 
 
         services.AddQuartz(q =>
         {
-            //q.UseMicrosoftDependencyInjectionJobFactory();
             //to do: передавать из конфигурации
             q.UseDefaultThreadPool(tp =>
             {
                 tp.MaxConcurrency = 75;
             });
         });
+
+        services.AddHostedService<QuartzJobScheduler>()
+            .AddSingleton<JobScheduleValidator>();
 
         return services;
     }
