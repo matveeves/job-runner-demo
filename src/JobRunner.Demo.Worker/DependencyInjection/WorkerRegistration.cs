@@ -14,6 +14,7 @@ public static class WorkerRegistration
     {
         services.AddQuartz(configuration)
             .AddSingleton<QuartzBuilder>()
+            .AddSingleton<QuartzJobPreparer>()
             .AddHostedService<QuartzJobScheduler>()
             .AddSerilog(o => o.ReadFrom.Configuration(configuration));
 
@@ -27,8 +28,6 @@ public static class WorkerRegistration
 
             return new JobClassTypesContainer(jobClassTypes);
         });
-
-        services.AddSingleton<QuartzJobPreparer>();
 
         return services;
     }
