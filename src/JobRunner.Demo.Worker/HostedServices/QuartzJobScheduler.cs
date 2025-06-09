@@ -26,7 +26,7 @@ public class QuartzJobScheduler : IHostedService
             await quartzScheduler.Start(cancellationToken);
 
             var jobContainers = 
-                await quartzJobPreparer.PrepareQuartzJobItems(serviceProvider);
+                await quartzJobPreparer.PrepareQuartzJobItems(cancellationToken);
 
             if (jobContainers.Count == 0)
             {
@@ -50,7 +50,7 @@ public class QuartzJobScheduler : IHostedService
     public Task StopAsync(CancellationToken cancellationToken)
         => Task.CompletedTask;
 
-    private void LogErrorJobs(ICollection<QuartzJobBuilderContainer> jobContainers,
+    private void LogErrorJobs(ICollection<JobBuilderContainer> jobContainers,
         ILogger<QuartzJobScheduler> logger)
     {
         

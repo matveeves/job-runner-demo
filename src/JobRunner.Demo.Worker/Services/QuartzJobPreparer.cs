@@ -7,38 +7,43 @@ namespace JobRunner.Demo.Worker.Services;
 
 public class QuartzJobPreparer
 {
-    public async Task<ICollection<QuartzJobBuilderContainer>> PrepareQuartzJobItems(
-        IServiceProvider serviceProvider, CancellationToken cancellationToken = default)
+    private readonly IMediator _mediator;
+    private readonly QuartzBuilder _quartzBuilder;
+    private readonly JobScheduleValidator _scheduleValidator;
+    private readonly JobClassTypesContainer _jobClassTypes;
+    public QuartzJobPreparer(IMediator mediator, QuartzBuilder quartzBuilder,
+        JobScheduleValidator jobScheduleValidator, JobClassTypesContainer jobClassTypes)
     {
-        var mediator = serviceProvider.GetRequiredService<IMediator>();
-        var quartzBuilder = serviceProvider.GetRequiredService<QuartzBuilder>();
-        var jobScheduleValidator = serviceProvider.GetRequiredService<JobScheduleValidator>();
-        var jobClassTypes = serviceProvider.GetRequiredService<JobClassTypesContainer>();
+        _mediator = mediator;
+        _quartzBuilder = quartzBuilder;
+        _scheduleValidator = jobScheduleValidator;
+        _jobClassTypes = jobClassTypes;
+    }
 
-        var jobSchedules = await mediator.Send(
+    public async Task<ICollection<JobBuilderContainer>> PrepareQuartzJobItems(CancellationToken cancellationToken = default)
+    {
+        var jobSchedules = await _mediator.Send(
             new GetTaskScheduleDbQuery(), cancellationToken);
 
-        return jobSchedules.Select(s
-                => BuildJobContainer(s, quartzBuilder, jobScheduleValidator, jobClassTypes))
+        return jobSchedules.Select(BuildJobContainer)
             .ToArray();
     }
 
-    private static QuartzJobBuilderContainer BuildJobContainer(TaskSchedule schedule, QuartzBuilder quartzBuilder,
-        JobScheduleValidator scheduleValidator, JobClassTypesContainer jobClassTypes)
+    private JobBuilderContainer BuildJobContainer(TaskSchedule schedule)
     {
-        var jobType = jobClassTypes.JobClassTypes[schedule.Name];
-        var isReadyToStart = scheduleValidator.Validate(
+        var jobType = _jobClassTypes.JobClassTypes[schedule.Name];
+        var isReadyToStart = _scheduleValidator.Validate(
             schedule, jobType, out var errorMessages);
 
         var jobDetail = isReadyToStart
-            ? quartzBuilder.BuildJob(jobType!, schedule)
+            ? _quartzBuilder.BuildJob(jobType!, schedule)
             : null;
 
         var jobTrigger = isReadyToStart
-            ? quartzBuilder.BuildTrigger(schedule)
+            ? _quartzBuilder.BuildTrigger(schedule)
             : null;
 
-        return new QuartzJobBuilderContainer(isReadyToStart, schedule,
+        return new JobBuilderContainer(isReadyToStart, schedule,
             jobDetail, jobTrigger, errorMessages);
     }
 }
