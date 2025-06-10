@@ -31,7 +31,7 @@ public class QuartzJobPreparer
 
     private JobBuilderContainer BuildJobContainer(TaskSchedule schedule)
     {
-        var jobType = _jobClassTypes.JobClassTypes[schedule.Name];
+        _ = _jobClassTypes.JobClassTypes.TryGetValue(schedule.Name, out var jobType);
         var isReadyToStart = _scheduleValidator.Validate(
             schedule, jobType, out var errorMessages);
 
