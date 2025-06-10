@@ -3,9 +3,9 @@ using JobRunner.Demo.Domain.Abstractions;
 namespace JobRunner.Demo.Domain.Entities;
 
 /// <summary>
-/// Очередь задач
+/// Задача из очереди
 /// </summary>
-public class TaskQueue : AuditableEntity, IBaseEntity<Guid>
+public class TaskQueueItem : AuditableEntity, IBaseEntity<Guid>
 {
     /// <summary>
     /// Идентификатор
@@ -60,10 +60,10 @@ public class TaskQueue : AuditableEntity, IBaseEntity<Guid>
     /// <summary>
     /// Конфигурация
     /// </summary>
-    public virtual TaskSchedule? TaskSchedule { get; set; }
+    public virtual TaskQueueSchedule? TaskSchedule { get; set; }
 
     /// <summary>
     /// Статус
     /// </summary>
-    public virtual TaskStatus? TaskStatus { get; set; }
+    public virtual TaskQueueItemStatus? TaskStatus { get; set; }
 }

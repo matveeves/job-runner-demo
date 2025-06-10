@@ -3,9 +3,9 @@ using JobRunner.Demo.Domain.Abstractions;
 namespace JobRunner.Demo.Domain.Entities;
 
 /// <summary>
-/// Конфигурация задач
+/// Конфигурация очереди задач
 /// </summary>
-public class TaskSchedule : AuditableEntity, IBaseEntity<Guid>
+public class TaskQueueSchedule : AuditableEntity, IBaseEntity<Guid>
 {
     /// <summary>
     /// Идентификатор
@@ -52,5 +52,5 @@ public class TaskSchedule : AuditableEntity, IBaseEntity<Guid>
     /// </summary>
     public int MaxRetries { get; set; } = 3;
 
-    public virtual ICollection<TaskQueue> Tasks { get; set; } = new List<TaskQueue>();
+    public virtual ICollection<TaskQueueItem> Tasks { get; set; } = new List<TaskQueueItem>();
 }

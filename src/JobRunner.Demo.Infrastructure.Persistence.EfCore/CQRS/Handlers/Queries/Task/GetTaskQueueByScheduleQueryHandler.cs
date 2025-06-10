@@ -7,7 +7,7 @@ using MediatR;
 namespace JobRunner.Demo.Infrastructure.Persistence.EfCore.CQRS.Handlers;
 
 public class GetTaskQueueByScheduleQueryHandler
-    : IRequestHandler<GetTaskQueueByScheduleDbQuery, IReadOnlyCollection<TaskQueue>>
+    : IRequestHandler<GetTaskQueueByScheduleDbQuery, IReadOnlyCollection<TaskQueueItem>>
 {
     private AppDbContext _dbContext;
     public GetTaskQueueByScheduleQueryHandler(AppDbContext dbContext)
@@ -15,13 +15,13 @@ public class GetTaskQueueByScheduleQueryHandler
         _dbContext = dbContext;
     }
 
-    public async Task<IReadOnlyCollection<TaskQueue>> Handle(
+    public async Task<IReadOnlyCollection<TaskQueueItem>> Handle(
         GetTaskQueueByScheduleDbQuery query, CancellationToken cancellationToken)
     {
         //to do: передать лимит (Take(query.Limit))
         var statuses = new[] { TaskStatusCode.Pending, TaskStatusCode.Retrying };
 
-        var queue = await _dbContext.Set<TaskQueue>()
+        var queue = await _dbContext.Set<TaskQueueItem>()
             .Include(q => q.TaskSchedule)
             .AsNoTracking()
             .Where(q => q.TaskSchedule!.Name == query.ScheduleName

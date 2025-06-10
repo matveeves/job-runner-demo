@@ -6,16 +6,16 @@ namespace JobRunner.Demo.Worker.Services;
 
 public class QuartzBuilder
 {
-    public IJobDetail BuildJob(Type jobType, TaskSchedule jobSchedule)
+    public IJobDetail BuildJob(Type jobType, TaskQueueSchedule jobQueueSchedule)
     {
         var jobBuilder = JobBuilder.Create(jobType)
-            .WithIdentity(new JobKey(jobSchedule.Name))
-            .UsingJobData("taskScheduleName", jobSchedule.Name)
-            .UsingJobData("maxItems", jobSchedule.MaxItemsPerIteration)
-            .UsingJobData("concurrencyLimit", jobSchedule.ConcurrencyLimitPerIteration);
+            .WithIdentity(new JobKey(jobQueueSchedule.Name))
+            .UsingJobData("taskScheduleName", jobQueueSchedule.Name)
+            .UsingJobData("maxItems", jobQueueSchedule.MaxItemsPerIteration)
+            .UsingJobData("concurrencyLimit", jobQueueSchedule.ConcurrencyLimitPerIteration);
 
-        var jCustomParams = !string.IsNullOrWhiteSpace(jobSchedule.JCustomParams)
-            ? jobSchedule.JCustomParams
+        var jCustomParams = !string.IsNullOrWhiteSpace(jobQueueSchedule.JCustomParams)
+            ? jobQueueSchedule.JCustomParams
             : "{}";
 
         var customParams = JsonConvert
@@ -29,12 +29,12 @@ public class QuartzBuilder
         return jobBuilder.Build();
     }
 
-    public ITrigger BuildTrigger(TaskSchedule jobSchedule)
+    public ITrigger BuildTrigger(TaskQueueSchedule jobQueueSchedule)
     {
         var trigger = TriggerBuilder.Create()
-            .ForJob(jobSchedule.Name)
-            .WithIdentity($"{jobSchedule.Name}-trigger")
-            .WithCronSchedule(jobSchedule.CronExpression, c => c
+            .ForJob(jobQueueSchedule.Name)
+            .WithIdentity($"{jobQueueSchedule.Name}-trigger")
+            .WithCronSchedule(jobQueueSchedule.CronExpression, c => c
                 .WithMisfireHandlingInstructionDoNothing())
             .Build();
 

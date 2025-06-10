@@ -1,4 +1,3 @@
-using TaskStatus = JobRunner.Demo.Domain.Entities.TaskStatus;
 using JobRunner.Demo.Application.Persistence.Commands;
 using JobRunner.Demo.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -19,12 +18,12 @@ public class SetTaskStartCommandHandler
     public async Task<int> Handle(
         SetTaskStartDbCommand query, CancellationToken cancellationToken)
     {
-        var runningStatusId = await _dbContext.Set<TaskStatus>()
+        var runningStatusId = await _dbContext.Set<TaskQueueItemStatus>()
             .Where(s => s.Code == TaskStatusCode.Running)
             .Select(s => s.Id)
             .SingleAsync(cancellationToken);
 
-        return await _dbContext.Set<TaskQueue>()
+        return await _dbContext.Set<TaskQueueItem>()
             .Where(t => t.Id == query.TaskId)
             .ExecuteUpdateAsync(s => s
                 .SetProperty(p => p.StartDate, query.StartDate)

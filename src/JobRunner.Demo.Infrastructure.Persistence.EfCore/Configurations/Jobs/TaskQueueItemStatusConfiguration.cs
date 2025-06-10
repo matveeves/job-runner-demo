@@ -1,16 +1,16 @@
-using TaskStatus = JobRunner.Demo.Domain.Entities.TaskStatus;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using JobRunner.Demo.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace JobRunner.Demo.Infrastructure.Persistence.EfCore.Configurations;
 
-public class TaskStatusConfiguration : IEntityTypeConfiguration<TaskStatus>
+public class TaskQueueItemStatusConfiguration : IEntityTypeConfiguration<TaskQueueItemStatus>
 {
-    public void Configure(EntityTypeBuilder<TaskStatus> entity)
+    public void Configure(EntityTypeBuilder<TaskQueueItemStatus> entity)
     {
-        entity.ToTable("cs_task_statuses", "jobs", tb => 
+        entity.ToTable("cs_queue_item_statuses", "jobs", tb => 
         {
-            tb.HasComment("Статусы задач");
+            tb.HasComment("Статусы задачи");
             tb.HasCheckConstraint("chk_cs_task_statuses_c_code_valid",
                 "c_code ~ '^[a-zA-Z0-9_-]+$'");
         });

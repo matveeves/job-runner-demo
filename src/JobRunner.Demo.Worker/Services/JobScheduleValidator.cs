@@ -6,31 +6,31 @@ namespace JobRunner.Demo.Worker.Services;
 
 public class JobScheduleValidator
 {
-    public bool Validate(TaskSchedule jobSchedule, Type? jobType, out ICollection<string> errorMessages)
+    public bool Validate(TaskQueueSchedule jobQueueSchedule, Type? jobType, out ICollection<string> errorMessages)
     {
         errorMessages = new List<string>();
 
         if (jobType == null)
         {
-            errorMessages.Add($"Не удаётся определить класс-обработчик для задачи '{jobSchedule.Name}'. " +
-                              $"Запуск задачи '{jobSchedule.Name}' будет пропущен.");
+            errorMessages.Add($"Не удаётся определить класс-обработчик для задачи '{jobQueueSchedule.Name}'. " +
+                              $"Запуск задачи '{jobQueueSchedule.Name}' будет пропущен.");
         }
 
-        if (!CronExpression.IsValidExpression(jobSchedule.CronExpression))
+        if (!CronExpression.IsValidExpression(jobQueueSchedule.CronExpression))
         {
-            errorMessages.Add($"Обнаружено невалидное cron выражение для задачи '{jobSchedule.Name}'. " +
-                              $"Запуск задачи '{jobSchedule.Name}' будет пропущен.");
+            errorMessages.Add($"Обнаружено невалидное cron выражение для задачи '{jobQueueSchedule.Name}'. " +
+                              $"Запуск задачи '{jobQueueSchedule.Name}' будет пропущен.");
         }
 
-        var jCustomParams = jobSchedule.JCustomParams;
+        var jCustomParams = jobQueueSchedule.JCustomParams;
         if (jCustomParams != null && !jCustomParams.IsValidJson())
         {
-            errorMessages.Add($"Невалидный json кастомных параметров для задачи '{jobSchedule.Name}'. " +
-                              $"Запуск задачи '{jobSchedule.Name}' будет пропущен.");
+            errorMessages.Add($"Невалидный json кастомных параметров для задачи '{jobQueueSchedule.Name}'. " +
+                              $"Запуск задачи '{jobQueueSchedule.Name}' будет пропущен.");
         }
 
         return jobType != null
-               && CronExpression.IsValidExpression(jobSchedule.CronExpression)
+               && CronExpression.IsValidExpression(jobQueueSchedule.CronExpression)
                && (jCustomParams == null || jCustomParams.IsValidJson());
     }
 }

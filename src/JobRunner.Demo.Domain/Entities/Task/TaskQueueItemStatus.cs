@@ -6,7 +6,7 @@ namespace JobRunner.Demo.Domain.Entities;
 /// <summary>
 /// Статус задачи
 /// </summary>
-public class TaskStatus : AuditableEntity, IBaseEntity<Guid>
+public class TaskQueueItemStatus : AuditableEntity, IBaseEntity<Guid>
 {
     /// <summary>
     /// Идентификатор
@@ -23,5 +23,5 @@ public class TaskStatus : AuditableEntity, IBaseEntity<Guid>
     /// </summary>
     public TaskStatusCode Code { get; set; }
 
-    public virtual ICollection<TaskQueue> Tasks { get; set; } = new List<TaskQueue>();
+    public virtual ICollection<TaskQueueItem> Tasks { get; set; } = new List<TaskQueueItem>();
 }

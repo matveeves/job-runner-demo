@@ -29,21 +29,21 @@ public class QuartzJobPreparer
             .ToArray();
     }
 
-    private JobBuilderContainer BuildJobContainer(TaskSchedule schedule)
+    private JobBuilderContainer BuildJobContainer(TaskQueueSchedule queueSchedule)
     {
-        _ = _jobClassTypes.JobClassTypes.TryGetValue(schedule.Name, out var jobType);
+        _ = _jobClassTypes.JobClassTypes.TryGetValue(queueSchedule.Name, out var jobType);
         var isReadyToStart = _scheduleValidator.Validate(
-            schedule, jobType, out var errorMessages);
+            queueSchedule, jobType, out var errorMessages);
 
         var jobDetail = isReadyToStart
-            ? _quartzBuilder.BuildJob(jobType!, schedule)
+            ? _quartzBuilder.BuildJob(jobType!, queueSchedule)
             : null;
 
         var jobTrigger = isReadyToStart
-            ? _quartzBuilder.BuildTrigger(schedule)
+            ? _quartzBuilder.BuildTrigger(queueSchedule)
             : null;
 
-        return new JobBuilderContainer(isReadyToStart, schedule,
+        return new JobBuilderContainer(isReadyToStart, queueSchedule,
             jobDetail, jobTrigger, errorMessages);
     }
 }

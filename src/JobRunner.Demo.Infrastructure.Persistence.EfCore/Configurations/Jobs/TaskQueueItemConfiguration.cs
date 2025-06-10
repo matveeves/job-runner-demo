@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace JobRunner.Demo.Infrastructure.Persistence.EfCore.Configurations;
 
-public class TaskQueueConfiguration : IEntityTypeConfiguration<TaskQueue>
+public class TaskQueueItemConfiguration : IEntityTypeConfiguration<TaskQueueItem>
 {
-    public void Configure(EntityTypeBuilder<TaskQueue> entity)
+    public void Configure(EntityTypeBuilder<TaskQueueItem> entity)
     {
-        entity.ToTable("cd_task_queue", "jobs", tb => 
+        entity.ToTable("cd_queue_items", "jobs", tb => 
         {
             tb.HasComment("Очередь задач");
         });

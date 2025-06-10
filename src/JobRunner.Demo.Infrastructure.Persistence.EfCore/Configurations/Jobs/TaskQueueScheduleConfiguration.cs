@@ -4,13 +4,13 @@ using JobRunner.Demo.Domain.Entities;
 
 namespace JobRunner.Demo.Infrastructure.Persistence.EfCore.Configurations;
 
-public class TaskScheduleConfiguration : IEntityTypeConfiguration<TaskSchedule>
+public class TaskQueueScheduleConfiguration : IEntityTypeConfiguration<TaskQueueSchedule>
 {
-    public void Configure(EntityTypeBuilder<TaskSchedule> entity)
+    public void Configure(EntityTypeBuilder<TaskQueueSchedule> entity)
     {
-        entity.ToTable("cs_task_schedules", "jobs", tb => 
+        entity.ToTable("cs_queue_schedules", "jobs", tb => 
         {
-            tb.HasComment("Конфигурация задач");
+            tb.HasComment("Конфигурация очереди задач");
             tb.HasCheckConstraint("chk_cs_task_schedules_c_name_valid",
                 "c_name ~ '^[a-zA-Z0-9_-]+$'");
         });
