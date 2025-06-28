@@ -12,15 +12,25 @@ public static class DependencyInjection
         this IServiceCollection services, IConfiguration configuration)
     {
         var sectionName = EfCoreOptions.SectionName;
+
         services.AddEfCore(o =>
         {
-            o.DbServer = configuration[$"{sectionName}:DbServer"]!;
-            o.DbPort = configuration[$"{sectionName}:DbPort"]!;
-            o.DbName = configuration[$"{sectionName}:DbName"]!;
-            o.DbUserName = configuration[$"{sectionName}:DbUserName"]!;
-            o.DbPassword = configuration[$"{sectionName}:DbPassword"]!;
+            o.DbServer = "localhost";
+            o.DbPort = "5432";
+            o.DbName = "jobs";
+            o.DbUserName = "postgres";
+            o.DbPassword = "postgres";
         }).AddMediatR(o =>
             o.RegisterServicesFromAssembly(typeof(DependencyInjection).Assembly));
+        //services.AddEfCore(o =>
+        //{
+        //    o.DbServer = configuration[$"{sectionName}:DbServer"]!;
+        //    o.DbPort = configuration[$"{sectionName}:DbPort"]!;
+        //    o.DbName = configuration[$"{sectionName}:DbName"]!;
+        //    o.DbUserName = configuration[$"{sectionName}:DbUserName"]!;
+        //    o.DbPassword = configuration[$"{sectionName}:DbPassword"]!;
+        //}).AddMediatR(o =>
+        //    o.RegisterServicesFromAssembly(typeof(DependencyInjection).Assembly));
 
         return services;
     }
@@ -30,12 +40,12 @@ public static class DependencyInjection
         if (setupAction != null)
             services.ConfigureEfCore(setupAction);
 
-        services.AddDbContext<AppDbContext>((s, o) =>
+        services.AddDbContext<AppDbContext>((sp, o) =>
         {
-            var efCoreOptions = s.GetService<IOptions<EfCoreOptions>>()?.Value;
+            var efCoreOptions = sp.GetService<IOptions<EfCoreOptions>>()?.Value;
 
             if (efCoreOptions == null)
-                throw new Exception($"The section '{EfCoreOptions.SectionName}' " +
+                throw new ArgumentNullException($"The section '{EfCoreOptions.SectionName}' " +
                     $"is missing from the application configuration");
 
             o.UseNpgsql(efCoreOptions.ConnectionString, builder =>

@@ -50,7 +50,7 @@ public class TaskQueueSchedule : AuditableEntity, IBaseEntity<Guid>
     /// <summary>
     /// Количество попыток повторного запуска задачи
     /// </summary>
-    public int MaxRetries { get; set; } = 3;
+    public int MaxTries { get; set; } = 3;
 
     public virtual ICollection<TaskQueueItem> Tasks { get; set; } = new List<TaskQueueItem>();
 }

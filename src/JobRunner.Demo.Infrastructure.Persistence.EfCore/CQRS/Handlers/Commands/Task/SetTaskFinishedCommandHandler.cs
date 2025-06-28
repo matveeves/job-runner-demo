@@ -26,7 +26,7 @@ public class SetTaskFinishedCommandHandler
             .Where(t => t.Id == query.TaskId)
             .ExecuteUpdateAsync(s => s
                 .SetProperty(p => p.EndDate, query.EndDate)
-                .SetProperty(p => p.RetryCount, query.RetryCount)
+                .SetProperty(p => p.TryCount, query.RetryCount)
                 .SetProperty(p => p.JError, query.JError)
                 .SetProperty(p => p.TaskStatusId, statusToSetId),
                 cancellationToken);

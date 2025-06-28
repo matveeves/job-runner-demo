@@ -5,8 +5,8 @@ public interface ITaskCommand
     Guid Id { get; set; }
     DateTime StartDate { get; set; }
     DateTime EndDate { get; set; }
-    int RetryCount { get; set; }
-    int MaxRetries { get; set; }
+    int TryCount { get; set; }
+    int MaxTries { get; set; }
     string? ExceptionsJson { get; set; }
     ITaskPayload Payload { get; set; }
 }

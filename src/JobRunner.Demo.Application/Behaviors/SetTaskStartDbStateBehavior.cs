@@ -20,7 +20,7 @@ public class SetTaskStartDbStateBehavior<TRequest, TResponse> : IPipelineBehavio
     public async Task<TResponse> Handle(TRequest taskCommand, 
         RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
     {
-        taskCommand.RetryCount++;
+        taskCommand.TryCount++;
         taskCommand.StartDate = DateTime.UtcNow;
 
         await _mediator.Send(

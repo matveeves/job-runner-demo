@@ -21,13 +21,13 @@ public class LoggingBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, 
     {
         _logger.LogInformation("Task execution started. TaskId: '{TaskId}', " +
                                "StartTime: '{StartTime:dd.MM.yyyy HH:mm:ss}', RetryCount: '{RetryCount}/{MaxRetries}'.",
-            taskCommand.Id, taskCommand.StartDate.ToLocalTime(), taskCommand.RetryCount, taskCommand.MaxRetries);
+            taskCommand.Id, taskCommand.StartDate.ToLocalTime(), taskCommand.TryCount, taskCommand.MaxTries);
 
         var response = await next();
 
         _logger.LogInformation("Task execution completed successfully. TaskId: '{TaskId}', " +
                                "EndTime: '{EndTime:dd.MM.yyyy HH:mm:ss}', RetryCount: '{RetryCount}/{MaxRetries}'.",
-            taskCommand.Id, taskCommand.EndDate.ToLocalTime(), taskCommand.RetryCount, taskCommand.MaxRetries);
+            taskCommand.Id, taskCommand.EndDate.ToLocalTime(), taskCommand.TryCount, taskCommand.MaxTries);
 
         return response;
     }

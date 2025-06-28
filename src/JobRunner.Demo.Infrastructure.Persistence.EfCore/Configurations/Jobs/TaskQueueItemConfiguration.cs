@@ -25,13 +25,13 @@ public class TaskQueueItemConfiguration : IEntityTypeConfiguration<TaskQueueItem
             .IsRequired();
 
         entity.Property(e => e.JError)
-            .HasComment("Информация об ошибке в формате JSON")
+            .HasComment("Информация об ошибках в формате JSON")
             .HasColumnType("jsonb")
             .HasColumnName("j_error")
             .IsRequired(false);
 
         entity.Property(e => e.StartByDate)
-            .HasComment("Запуск по времени (дата и время запуска)")
+            .HasComment("Дата и временя после которой запустить")
             .HasColumnName("d_start_by_date")
             .IsRequired(false);
 
@@ -45,8 +45,8 @@ public class TaskQueueItemConfiguration : IEntityTypeConfiguration<TaskQueueItem
             .HasColumnName("d_end_date")
             .IsRequired(false);
 
-        entity.Property(e => e.RetryCount)
-            .HasComment("Количество попыток перезапуска задачи")
+        entity.Property(e => e.TryCount)
+            .HasComment("Количество запусков")
             .HasColumnName("n_retry_count")
             .HasDefaultValue(0)
             .IsRequired();
@@ -83,12 +83,14 @@ public class TaskQueueItemConfiguration : IEntityTypeConfiguration<TaskQueueItem
             .HasComment("Владелец")
             .HasColumnName("s_owner");
 
-        entity.HasOne(e => e.TaskSchedule).WithMany(e => e.Tasks)
+        entity.HasOne(e => e.TaskSchedule)
+            .WithMany(e => e.Tasks)
             .HasForeignKey(e => e.TaskScheduleId)
             .OnDelete(DeleteBehavior.Cascade);
 
-        entity.HasOne(e => e.TaskStatus).WithMany(e => e.Tasks)
+        entity.HasOne(e => e.TaskStatus)
+            .WithMany(e => e.Tasks)
             .HasForeignKey(e => e.TaskStatusId)
-            .OnDelete(DeleteBehavior.Cascade);
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }

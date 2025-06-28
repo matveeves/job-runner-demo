@@ -62,9 +62,9 @@ public class TaskQueueScheduleConfiguration : IEntityTypeConfiguration<TaskQueue
             .HasColumnName("j_custom_params")
             .IsRequired(false);
 
-        entity.Property(e => e.MaxRetries)
-            .HasComment("Количество попыток повторного запуска задачи")
-            .HasColumnName("n_max_retries")
+        entity.Property(e => e.MaxTries)
+            .HasComment("Количество попыток запуска задачи")
+            .HasColumnName("n_max_tries")
             .HasDefaultValue(3)
             .IsRequired();
 

@@ -10,7 +10,7 @@ public class TaskCommandMayanTaskQueueConfig : IRegister
     public void Register(TypeAdapterConfig config)
     {
         config.NewConfig<TaskQueueItem, ITaskCommand>()
-            .Map(dest => dest.MaxRetries, src => src.TaskSchedule!.MaxRetries)
+            .Map(dest => dest.MaxTries, src => src.TaskSchedule!.MaxTries)
             .Map(dest => dest.ExceptionsJson, src => src.JError);
 
         config.NewConfig<ITaskCommand, TaskException>()

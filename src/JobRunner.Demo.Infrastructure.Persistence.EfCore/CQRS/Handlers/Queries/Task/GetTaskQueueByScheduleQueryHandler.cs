@@ -27,7 +27,7 @@ public class GetTaskQueueByScheduleQueryHandler
             .Where(q => q.TaskSchedule!.Name == query.ScheduleName
                 && statuses.Contains(q.TaskStatus!.Code)
                 && (!q.StartByDate.HasValue || q.StartByDate > DateTime.UtcNow)
-                && q.RetryCount < q.TaskSchedule!.MaxRetries
+                && q.TryCount < q.TaskSchedule!.MaxTries
                 && !q.IsManual)
             .ToArrayAsync(cancellationToken);
 

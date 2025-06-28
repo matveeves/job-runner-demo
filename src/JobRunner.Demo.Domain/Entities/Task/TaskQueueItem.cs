@@ -38,9 +38,9 @@ public class TaskQueueItem : AuditableEntity, IBaseEntity<Guid>
     public DateTime? EndDate { get; set; }
 
     /// <summary>
-    /// Количество попыток перезапуска задачи
+    /// Количество запусков задачи
     /// </summary>
-    public int RetryCount { get; set; } = 0;
+    public int TryCount { get; set; } = 0;
 
     /// <summary>
     /// Признак ручного запуска

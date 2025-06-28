@@ -44,7 +44,7 @@ public class ExceptionHandlingBehavior<TRequest, TResponse> : IPipelineBehavior<
 
             _logger.LogError(ex, "An exception occurred during task execution. " +
                 "TaskId: '{TaskId}', EndDate: '{EndDate:dd.MM.yyyy HH:mm:ss}', RetryCount: '{RetryCount}/{MaxRetries}'",
-                taskCommand.Id, taskCommand.EndDate.ToLocalTime(), taskCommand.RetryCount, taskCommand.MaxRetries);
+                taskCommand.Id, taskCommand.EndDate.ToLocalTime(), taskCommand.TryCount, taskCommand.MaxTries);
 
             throw;
         }
@@ -63,13 +63,13 @@ public class ExceptionHandlingBehavior<TRequest, TResponse> : IPipelineBehavior<
         exceptions.Add(taskException);
 
         var exceptionsJson = JsonConvert.SerializeObject(exceptions, _serializerSettings);
-        var statusToSetCode = taskCommand.RetryCount == taskCommand.MaxRetries
+        var statusToSetCode = taskCommand.TryCount == taskCommand.MaxTries
             ? TaskStatusCode.Failed
             : TaskStatusCode.Retrying;
 
         await _mediator.Send(
             new SetTaskFinishedDbCommand(taskCommand.Id, taskCommand.EndDate,
-                taskCommand.RetryCount, statusToSetCode, exceptionsJson),
+                taskCommand.TryCount, statusToSetCode, exceptionsJson),
         cancellationToken);
     }
 }
