@@ -20,7 +20,7 @@ internal sealed class QuartzJobPreparer
         _jobClassTypes = jobClassTypes;
     }
 
-    public async Task<ICollection<JobBuilderContainer>> PrepareQuartzJobItems(CancellationToken cancellationToken = default)
+    public async Task<IReadOnlyCollection<JobBuilderContainer>> PrepareQuartzJobItems(CancellationToken cancellationToken = default)
     {
         var jobSchedules = await _mediator.Send(
             new GetTaskScheduleDbQuery(), cancellationToken);

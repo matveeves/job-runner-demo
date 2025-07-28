@@ -42,14 +42,14 @@ internal sealed class QuartzJobScheduler
             _logger.LogWarning(error);
         }
     }
-    private Task<DateTimeOffset>[] GetJobScheduleTasks(ICollection<JobBuilderContainer> jobContainers,
+    private Task<DateTimeOffset>[] GetJobScheduleTasks(IReadOnlyCollection<JobBuilderContainer> jobContainers,
         IScheduler quartzScheduler, CancellationToken cancellationToken = default)
         => jobContainers
             .Where(c => c.IsReadyToStart)
             .Select(c
                 => quartzScheduler.ScheduleJob(c.QuartzJobDetail!, c.QuartzJobTrigger!, cancellationToken))
             .ToArray();
-    private string[] GetJobContainerErrors(ICollection<JobBuilderContainer> jobContainers)
+    private string[] GetJobContainerErrors(IReadOnlyCollection<JobBuilderContainer> jobContainers)
         => jobContainers
             .Where(c => !c.IsReadyToStart)
             .SelectMany(c => c.ErrorMessages)
