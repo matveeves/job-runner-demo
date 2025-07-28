@@ -58,7 +58,15 @@ public static class DependencyInjection
 
     public static IServiceCollection AddMapper(this IServiceCollection services)
     {
-        TypeAdapterConfig.GlobalSettings.Scan(Assembly.GetExecutingAssembly());
+        TypeAdapterConfig.GlobalSettings
+            .Scan(Assembly.GetExecutingAssembly());
+
+        TypeAdapterConfig.GlobalSettings.Default
+            .NameMatchingStrategy(NameMatchingStrategy.Flexible)
+            .ShallowCopyForSameType(true)
+            .IgnoreNullValues(true)
+            .PreserveReference(true)
+            .IgnoreNonMapped(true);
 
         return services;
     }

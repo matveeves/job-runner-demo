@@ -18,8 +18,11 @@ public static class QuartzRegistration
             });
         });
 
-        services.AddHostedService<QuartzJobScheduler>()
-            .AddSingleton<JobScheduleValidator>();
+        services.AddHostedService<QuartzJobScheduleHostedService>()
+            .AddSingleton<JobScheduleValidator>()
+            .AddSingleton<QuartzBuilder>()
+            .AddScoped<QuartzJobPreparer>()
+            .AddScoped<QuartzJobScheduler>();
 
         return services;
     }

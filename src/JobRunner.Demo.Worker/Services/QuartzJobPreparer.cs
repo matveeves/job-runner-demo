@@ -5,7 +5,7 @@ using MediatR;
 
 namespace JobRunner.Demo.Worker.Services;
 
-public class QuartzJobPreparer
+internal sealed class QuartzJobPreparer
 {
     private readonly IMediator _mediator;
     private readonly QuartzBuilder _quartzBuilder;

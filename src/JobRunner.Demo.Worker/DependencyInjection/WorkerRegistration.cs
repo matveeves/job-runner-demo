@@ -1,4 +1,3 @@
-using JobRunner.Demo.Worker.HostedServices;
 using JobRunner.Demo.Worker.Attributes;
 using JobRunner.Demo.Worker.Services;
 using JobRunner.Demo.Worker.Models;
@@ -13,9 +12,6 @@ public static class WorkerRegistration
         this IServiceCollection services, IConfiguration configuration)
     {
         services.AddQuartz(configuration)
-            .AddSingleton<QuartzBuilder>()
-            .AddSingleton<QuartzJobPreparer>()
-            .AddHostedService<QuartzJobScheduler>()
             .AddSerilog(o => o.ReadFrom.Configuration(configuration));
 
         services.AddSingleton(_ =>

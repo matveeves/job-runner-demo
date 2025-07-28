@@ -4,7 +4,7 @@ using Quartz;
 
 namespace JobRunner.Demo.Worker.Services;
 
-public class JobScheduleValidator
+internal sealed class JobScheduleValidator
 {
     public bool Validate(TaskQueueSchedule jobQueueSchedule, Type? jobType, out ICollection<string> errorMessages)
     {

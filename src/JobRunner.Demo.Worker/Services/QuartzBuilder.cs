@@ -4,7 +4,7 @@ using Quartz;
 
 namespace JobRunner.Demo.Worker.Services;
 
-public class QuartzBuilder
+internal sealed class QuartzBuilder
 {
     public IJobDetail BuildJob(Type jobType, TaskQueueSchedule jobQueueSchedule)
     {
