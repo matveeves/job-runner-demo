@@ -1,4 +1,4 @@
-using JobRunner.Demo.Worker.Extensions;
+using JobRunner.Demo.Application.Extensions;
 using JobRunner.Demo.Domain.Entities;
 using Quartz;
 

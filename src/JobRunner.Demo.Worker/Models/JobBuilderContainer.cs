@@ -3,7 +3,7 @@ using Quartz;
 
 namespace JobRunner.Demo.Worker.Models;
 
-public class JobBuilderContainer
+internal class JobBuilderContainer
 {
     public TaskQueueSchedule QueueSchedule { get; }
     public bool IsReadyToStart { get; }

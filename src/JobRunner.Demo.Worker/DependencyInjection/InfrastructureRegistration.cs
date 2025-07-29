@@ -2,7 +2,7 @@ using JobRunner.Demo.Infrastructure.Persistence.EfCore;
 
 namespace JobRunner.Demo.Worker.DependencyInjection;
 
-public static class InfrastructureRegistration
+internal static class InfrastructureRegistration
 {
     public static IServiceCollection AddInfrastructure(
         this IServiceCollection services, IConfiguration configuration)

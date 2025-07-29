@@ -5,7 +5,7 @@ using Quartz;
 namespace JobRunner.Demo.Worker.Abstractions;
 
 [DisallowConcurrentExecution]
-public abstract class JobBase<TCommand, TPayload> : IJob
+internal abstract class JobBase<TCommand, TPayload> : IJob
     where TCommand : ITaskCommand
     where TPayload : ITaskPayload
 {

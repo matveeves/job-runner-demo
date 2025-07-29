@@ -11,7 +11,7 @@ public static class ObjectExtensions
     /// - конвертация невозможна.
     /// В случае успеха возвращает true, а out-параметр содержит результат.
     /// </summary>
-    public static bool TryConvert(this object obj,
+    public static bool TryConvert(this object? obj,
         Type targetType, out object? typedObj)
     {
         typedObj = null;

@@ -1,12 +1,11 @@
 using JobRunner.Demo.Worker.Attributes;
-using JobRunner.Demo.Worker.Services;
 using JobRunner.Demo.Worker.Models;
 using System.Reflection;
 using Serilog;
 
 namespace JobRunner.Demo.Worker.DependencyInjection;
 
-public static class WorkerRegistration
+internal static class WorkerRegistration
 {
     public static IServiceCollection AddWorker(
         this IServiceCollection services, IConfiguration configuration)

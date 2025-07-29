@@ -4,7 +4,7 @@ using Quartz;
 
 namespace JobRunner.Demo.Worker.DependencyInjection;
 
-public static class QuartzRegistration
+internal static class QuartzRegistration
 {
     public static IServiceCollection AddQuartz(this IServiceCollection services,
         IConfiguration configuration)
