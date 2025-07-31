@@ -47,7 +47,7 @@ public class TaskQueueItemConfiguration : IEntityTypeConfiguration<TaskQueueItem
 
         entity.Property(e => e.TryCount)
             .HasComment("Количество запусков")
-            .HasColumnName("n_retry_count")
+            .HasColumnName("n_try_count")
             .HasDefaultValue(0)
             .IsRequired();
 
