@@ -1,6 +1,6 @@
+using JobRunner.Demo.Application.JobCommands;
 using JobRunner.Demo.Worker.Abstractions;
 using JobRunner.Demo.Worker.Attributes;
-using JobRunner.Demo.Application.JobCommands;
 
 namespace JobRunner.Demo.Worker.Tasks;
 

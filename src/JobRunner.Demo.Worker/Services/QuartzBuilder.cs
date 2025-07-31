@@ -10,7 +10,7 @@ internal sealed class QuartzBuilder
     {
         var jobBuilder = JobBuilder.Create(jobType)
             .WithIdentity(new JobKey(jobQueueSchedule.Name))
-            .UsingJobData("taskScheduleName", jobQueueSchedule.Name)
+            .UsingJobData("queueScheduleName", jobQueueSchedule.Name)
             .UsingJobData("maxItems", jobQueueSchedule.MaxItemsPerIteration)
             .UsingJobData("concurrencyLimit", jobQueueSchedule.ConcurrencyLimitPerIteration);
 

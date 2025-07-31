@@ -19,7 +19,7 @@ internal abstract class JobBase<TCommand, TPayload> : IJob
         await using var scope = _scopeFactory.CreateAsyncScope();
 
         var jobData = context.JobDetail.JobDataMap;
-        var jobName = jobData["taskScheduleName"];
+        var jobName = jobData["queueScheduleName"];
         var logger = scope.ServiceProvider.GetRequiredService<ILogger<JobBase<TCommand, TPayload>>>();
 
         try
@@ -42,11 +42,11 @@ internal abstract class JobBase<TCommand, TPayload> : IJob
     {
         var maxItems = jobData.GetInt("maxItems");
         var concurrencyLimit = jobData.GetInt("concurrencyLimit");
-        var taskScheduleName = jobData.GetString("taskScheduleName")!;
+        var taskScheduleName = jobData.GetString("queueScheduleName")!;
         var jobStarter = serviceProvider.GetRequiredService<JobStarter<TCommand, TPayload>>();
 
         var defaultTaskDataKeys = new[] {
-            "taskScheduleName", "maxItems", "concurrencyLimit" };
+            "queueScheduleName", "maxItems", "concurrencyLimit" };
         var customJobData = jobData
             .Where(data => !defaultTaskDataKeys.Contains(data.Key))
             .ToDictionary(data => data.Key, data => data.Value);
