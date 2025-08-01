@@ -13,7 +13,7 @@ public class Program
             .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
             .AddEnvironmentVariables();
 
-        builder.Services.AddApplication()
+        builder.Services.AddApplication(builder.Configuration)
             .AddInfrastructure(builder.Configuration)
             .AddWorker(builder.Configuration);
 

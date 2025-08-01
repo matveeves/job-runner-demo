@@ -3,10 +3,10 @@ namespace JobRunner.Demo.Application.Enums;
 /// <summary>
 /// Стратегии сопоставления имён свойств при маппинге с использованием Mapster.
 /// </summary>
-public enum MapsterNameMatchingStrategy : byte
+public enum NameResolveStrategy : byte
 {
     /// <summary>
-    /// Только точное совпадение (регистрозависимое).
+    /// Tочное совпадение (регистрозависимое).
     /// </summary>
     Exact,
 

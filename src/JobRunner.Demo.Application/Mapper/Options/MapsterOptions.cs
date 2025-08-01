@@ -1,4 +1,3 @@
-using System.ComponentModel.DataAnnotations;
 using JobRunner.Demo.Application.Enums;
 
 namespace JobRunner.Demo.Application.Mapper.Options;
@@ -13,25 +12,25 @@ public class MapsterOptions
     /// <summary>
     /// Стратегия сопоставления имён свойств.
     /// </summary>
-    [Required] public MapsterNameMatchingStrategy MapsterNameMatchingStrategy { get; set; }
+    public NameResolveStrategy NameResolveStrategy { get; set; } = NameResolveStrategy.Flexible;
 
     /// <summary>
     /// Включить поверхностное копирование для одинаковых типов.
     /// </summary>
-    [Required] public bool ShallowCopyForSameType { get; set; }
+    public bool ShallowCopyForSameType { get; set; } = true;
 
     /// <summary>
     /// Игнорировать null свойства исходного объекта и не записывать его в целевом.
     /// </summary>
-    [Required] public bool IgnoreNullValues { get; set; }
+    public bool IgnoreNullValues { get; set; } = true;
 
     /// <summary>
     /// Сохранять ссылочную целостность объектов.
     /// </summary>
-    [Required] public bool PreserveReference { get; set; }
+    public bool PreserveReference { get; set; } = true;
 
     /// <summary>
     /// Игнорировать свойства без явного маппинга в правилах.
     /// </summary>
-    [Required] public bool IgnoreNonMapped { get; set; }
+    public bool IgnoreNonMapped { get; set; } = false;
 }

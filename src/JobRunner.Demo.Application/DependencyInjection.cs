@@ -1,15 +1,12 @@
-using JobRunner.Demo.Application.Persistence.Queries;
 using JobRunner.Demo.Application.SerializerSettings;
 using Microsoft.Extensions.DependencyInjection;
 using JobRunner.Demo.Application.Interfaces;
 using JobRunner.Demo.Application.Behaviors;
 using JobRunner.Demo.Application.Services;
 using Newtonsoft.Json.Serialization;
-using System.Reflection;
 using FluentValidation;
 using Newtonsoft.Json;
 using MediatR;
-using Mapster;
 
 namespace JobRunner.Demo.Application;
 
@@ -52,21 +49,6 @@ public static class DependencyInjection
     {
         services.AddScoped<Validator>()
             .AddValidatorsFromAssemblyContaining<Validator>();
-
-        return services;
-    }
-
-    public static IServiceCollection AddMapper(this IServiceCollection services)
-    {
-        TypeAdapterConfig.GlobalSettings
-            .Scan(Assembly.GetExecutingAssembly());
-
-        TypeAdapterConfig.GlobalSettings.Default
-            .NameMatchingStrategy(NameMatchingStrategy.Flexible)
-            .ShallowCopyForSameType(true)
-            .IgnoreNullValues(true)
-            .PreserveReference(true)
-            .IgnoreNonMapped(true);
 
         return services;
     }
